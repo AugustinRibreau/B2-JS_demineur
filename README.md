@@ -1,4 +1,4 @@
-# Démineur
+# Démineur 💣
 
 This repository contains the code of a second year exercise. She's a bomb squad.
 
