@@ -12,7 +12,7 @@ This repository contains the code of a second year of higher education exercise.
 
 ## How to contribute
 
-Just send a pull-request :)
+Just send a pull-request 😉
 
 ## Auteurs
 - <b>Augustin Ribreau</b> - <i>Developpeur</i> - <a href="https://augustin.ribreau.co/">augustin.ribreau.co</a>.
