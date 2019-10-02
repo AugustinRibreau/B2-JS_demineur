@@ -1,6 +1,6 @@
 # Démineur 💣
 
-This repository contains the code of a second year exercise. She's a bomb squad.
+This repository contains the code of a second year of higher education exercise. He is a deminer.
 
 ## How to Start
 
@@ -13,3 +13,6 @@ This repository contains the code of a second year exercise. She's a bomb squad.
 ## How to contribute
 
 Just send a pull-request :)
+
+## Auteurs
+- <b>Augustin Ribreau</b> - <i>Developpeur</i> - <a href="https://augustin.ribreau.co/">augustin.ribreau.co</a>.
