@@ -89,39 +89,39 @@ class Demineur{
             grid[4][0]       grid[4][4]
          */
         if (x <= 4 && x >= 0 && y <=4 && y >= 0 ){
-           if (grid[y][x].isRevealed !== true && grid[y][x].isFlagged === false){
-               grid[y][x].isRevealed = true;
-            if (grid[y][x].valeur === 0){
-                this.click(x,y+1);
-                this.click(x+1,y+1);
-                this.click(x+1,y);
-                this.click(x+1,y-1);
-                this.click(x,y-1);
-                this.click(x-1,y-1);
-                this.click(x-1,y);
-                this.click(x-1,y+1);
+            if (grid[y][x].isRevealed !== true && grid[y][x].isFlagged === false){
+                grid[y][x].isRevealed = true;
+                if (grid[y][x].valeur === 0){
+                    this.click(x,y+1);
+                    this.click(x+1,y+1);
+                    this.click(x+1,y);
+                    this.click(x+1,y-1);
+                    this.click(x,y-1);
+                    this.click(x-1,y-1);
+                    this.click(x-1,y);
+                    this.click(x-1,y+1);
+                }
             }
-           }
         }
     }
 
     start() { // Menu et lancement du jeu
         console.clear();
         console.log(colors.rainbow(" __    __     _                          \n" +
-                    "/ / /\\ \\ \\___| | ___ ___  _ __ ___   ___ \n" +
-                    "\\ \\/  \\/ / _ \\ |/ __/ _ \\| '_ ` _ \\ / _ \\\n" +
-                    " \\  /\\  /  __/ | (_| (_) | | | | | |  __/\n" +
-                    "  \\/  \\/ \\___|_|\\___\\___/|_| |_| |_|\\___|\n"));
+            "/ / /\\ \\ \\___| | ___ ___  _ __ ___   ___ \n" +
+            "\\ \\/  \\/ / _ \\ |/ __/ _ \\| '_ ` _ \\ / _ \\\n" +
+            " \\  /\\  /  __/ | (_| (_) | | | | | |  __/\n" +
+            "  \\/  \\/ \\___|_|\\___\\___/|_| |_| |_|\\___|\n"));
         jeu.display();
         while(!jeu.win && !jeu.loose){
             console.log(colors.blue('C -> Click \n'));
             console.log(colors.red('F -> Flag\n'));
-            console.log(colors.green('D -> Display'));
+            console.log(colors.green('D -> Display\n'));
             var valueNext = scanf('%s');
             if (valueNext === "C") {
-                console.log('Entrer x');
+                console.log('\nEntrer x');
                 var xValue = scanf('%d');
-                console.log('Entrer y');
+                console.log('\nEntrer y');
                 var yValue = scanf('%d');
                 jeu.click(xValue, yValue);
                 jeu.display();
