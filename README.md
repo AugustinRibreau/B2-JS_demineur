@@ -6,8 +6,8 @@ This repository contains the code of a second year exercise. She's a bomb squad.
 
 - Clone this repository
 - `npm install`
-- opens your favorite terminal
-- go to the location of the file
+- Opens your favorite terminal
+- Go to the location of the file
 - `node index.js`
 
 ## How to contribute
