@@ -1,5 +1,57 @@
 
-var grid = [ [0, 1, 1, 1, 0], [0, 2, '💣', 2, 0], [0, 2, '💣', 2, 0], [0, 1, 1, 1, 0],  [0, 0, 0, 0, 0], ];
+// var grid = [ [0, 1, 1, 1, 0], [0, 2, '💣', 2, 0], [0, 2, '💣', 2, 0], [0, 1, 1, 1, 0],  [0, 0, 0, 0, 0], ];
+
+var grille = [];
+for(let i=0;i<=this.tailleY;i++){//mise en place d'une grille avec que des 0 à l'intérieur
+    grille.push([]);
+    for( let j=0;j<=this.tailleX;j++) {
+        grille[i].push(0);
+    }
+}
+
+while (this.nbMineAgenerer!==0) {
+    var positionY=Math.round(Math.random()*this.tailleY);//génération d'une coordonnée x alléatoire pour la mine
+    var positionX=Math.round(Math.random()*this.tailleX);//génération d'une coordonnée y alléatoire pour la mine
+    for(let y=0;y<=this.tailleY;y++) {
+        if (y === positionY) {
+            for (let x = 0; x <= this.tailleX; x++) {
+                if (x === positionX) {
+                    if (grille[y][x] !== 'M') {
+                        grille[y][x] = 'M';//mise en place de la mine au coordonnée qui ont été générées puis ajout autour de la mine d'un 1
+                        this.nbMineAgenerer = this.nbMineAgenerer - 1;
+                        if ((x >= 0 && x <= this.tailleX) && (y + 1 >= 0 && y + 1 <= this.tailleY) && grille[y + 1][x] !== 'M') {
+                            grille[y + 1][x] = grille[y + 1][x] + 1;
+                        }
+                        if ((x + 1 >= 0 && x + 1 <= this.tailleX) && (y + 1 >= 0 && y + 1 <= this.tailleY) && grille[y + 1][x + 1] !== 'M') {
+                            grille[y + 1][x + 1] = grille[y + 1][x + 1] + 1;
+                        }
+                        if ((x + 1 >= 0 && x + 1 <= this.tailleX) && (y >= 0 && y <= this.tailleY) && grille[y][x + 1] !== 'M') {
+                            grille[y][x + 1] = grille[y][x + 1] + 1;
+                        }
+                        if ((x + 1 >= 0 && x + 1 <= this.tailleX) && (y - 1 >= 0 && y - 1 <= this.tailleY) && grille[y - 1][x + 1] !== 'M') {
+                            grille[y - 1][x + 1] = grille[y - 1][x + 1] + 1;
+                        }
+                        if ((x >= 0 && x <= this.tailleX) && (y - 1 >= 0 && y - 1 <= this.tailleY) && grille[y - 1][x] !== 'M') {
+                            grille[y - 1][x] = grille[y - 1][x] + 1;
+                        }
+                        if ((x - 1 >= 0 && x - 1 <= this.tailleX) && (y - 1 >= 0 && y - 1 <= this.tailleY) && grille[y - 1][x - 1] !== 'M') {
+                            grille[y - 1][x - 1] = grille[y - 1][x - 1] + 1;
+                        }
+                        if ((x - 1 >= 0 && x - 1 <= this.tailleX) && (y >= 0 && y <= this.tailleY) && grille[y][x - 1] !== 'M') {
+                            grille[y][x - 1] = grille[y][x - 1] + 1;
+                        }
+                        if ((x - 1 >= 0 && x - 1 <= this.tailleX) && (y + 1 >= 0 && y + 1 <= this.tailleY) && grille[y + 1][x - 1] !== 'M') {
+                            grille[y + 1][x - 1] = grille[y + 1][x - 1] + 1;
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+
 var colors = require('colors/safe');
 var scanf = require('scanf');
 
@@ -184,4 +236,7 @@ class Demineur{
 var jeu = new Demineur();
 jeu.start();
 jeu.display();
+
+
+
 
