@@ -1,4 +1,15 @@
-var grid = [ [0, 1, 1, 1, 0], [0, 2, 'M', 2, 0], [0, 2, 'M', 2, 0], [0, 1, 1, 1, 0],  [0, 0, 0, 0, 0], ];
+
+var grid = [ [0, 1, 1, 1, 0], [0, 2, '💣', 2, 0], [0, 2, '💣', 2, 0], [0, 1, 1, 1, 0],  [0, 0, 0, 0, 0], ];
+var colors = require('colors/safe');
+var scanf = require('scanf');
+
+// la grille du démineur :
+//     [0, 1, 1, 1, 0]
+//     [0, 2, 'M', 2, 0]
+//     [0, 2, 'M', 2, 0]
+//     [0, 1, 1, 1, 0]
+//     [0, 0, 0, 0, 0]
+
 class Cellule {
     constructor(){
         this.isFlagged = false;
@@ -6,13 +17,14 @@ class Cellule {
     };
 }
 
-class Mine extends Cellule {
+class Mine extends Cellule { // herite de Cellule
     constructor(string){
         super();
+        this.valeur="M";
     }
 }
 
-class Nombre extends Cellule {
+class Nombre extends Cellule { // herite de Cellule
     constructor(value){
         super();
         this.valeur = value;
@@ -22,9 +34,11 @@ class Nombre extends Cellule {
 
 class Demineur{
     constructor(){
-        for (var i = 0; i < grid.length; i++) {
+        this.win = false;
+        this.loose = false;
+        for (var i = 0; i < grid.length; i++) { //décomposition grid en row
             const row = grid[i];
-            for (var x = 0;  x < row.length; x++) {
+            for (var x = 0;  x < row.length; x++) { //décomposition row en case
                 var thisCase = row[x];
                 if (isNaN(row[x]) === true){
                     row[x] = new Mine(thisCase);
@@ -36,39 +50,38 @@ class Demineur{
         }
     }
 
-    display() {
-        // console.clear();
+    display() { // affiche la grille du démineur
         var print = "\n";
-        for (var i = 0; i < grid.length; i++) {
+        for (var i = 0; i < grid.length; i++) { //décomposition grid en row
             const row = grid[i];
-            for (var x = 0; x < row.length; x++) {
+            for (var x = 0; x < row.length; x++) { //décomposition row en case
                 var thisCase = row[x];
                 if (thisCase.isFlagged === true && thisCase.isRevealed === false) {
-                    print = print + "F ";
+                    print = print + " [" + colors.red("F") + "] ";
                 }
                 else if (thisCase.isFlagged === false && thisCase.isRevealed === true) {
-                    print = print + "A ";
+                    print = print + " ["+ colors.blue(thisCase.valeur) + "] ";
                 }
                 else if (thisCase.isFlagged === true && thisCase.isRevealed === true){
-                    print = print + "F ";
+                    print = print + " [" + colors.red("F") + "] ";
                 }
                 else{
-                    print = print + "⬛ ";
+                    print = print + " [" + colors.grey("⬛") + "] ";
                 }
 
-
             }
-            print = print + "\n";
+            print = print + "\n\n";
         }
         return console.log(print);
     }
 
-    flag(x,y){
-        grid[y][x].isFlagged = true;
+    flag(x,y){ // Placer un drapeau pour proteger une case (eviter de selectionner la case par inadvertance)
+        grid[y][x].isFlagged = !grid[y][x].isFlagged;
         jeu.display();
     }
 
-    click (x,y){
+
+    click (x,y){ // selectionner une case
         console.clear();
         /*
             grid[0][0]       grid[0][4]
@@ -76,9 +89,9 @@ class Demineur{
             grid[4][0]       grid[4][4]
          */
         if (x <= 4 && x >= 0 && y <=4 && y >= 0 ){
-           if (grid[y][x].isRevealed !== true){
+           if (grid[y][x].isRevealed !== true && grid[y][x].isFlagged === false){
+               grid[y][x].isRevealed = true;
             if (grid[y][x].valeur === 0){
-                grid[y][x].isRevealed = true;
                 this.click(x,y+1);
                 this.click(x+1,y+1);
                 this.click(x+1,y);
@@ -90,62 +103,85 @@ class Demineur{
             }
            }
         }
-        // else{
-        //     console.log("Voici les valeurs pouvant être selectionnées :\n" +
-        //         "[{0,0}, {1,0}, {2,0}, {3,0}, {4,0}]\n" +
-        //         "[{0,1}, {1,1}, {2,1}, {3,1}, {4,1}]\n" +
-        //         "[{0,2}, {1,2}, {2,2}, {3,2}, {4,2}]\n" +
-        //         "[{0,3}, {1,3}, {2,3}, {3,3}, {4,3}]\n" +
-        //         "[{0,4}, {1,4}, {2,4}, {3,4}, {4,4}]")
-        // }
-
-        // if (x === 0 && y ===0){
-        //     jeu.plop(x+1,y);
-        //     jeu.plop(x,y);
-        //     jeu.plop(x,y+1);
-        //     jeu.plop(x+1,y+1);
-        // }
-        // if (x === 0 && y ===4){
-        //     jeu.plop(x,y-1);
-        //     jeu.plop(x,y);
-        //     jeu.plop(x+1,y-1);
-        //     jeu.plop(x+1,y);
-        // }
-        // if (x === 4 && y === 0){
-        //     jeu.plop(x-1,y+1);
-        //     jeu.plop(x,y);
-        //     jeu.plop(x-1,y);
-        //     jeu.plop(x,y+1);
-        // }
-        // if (x === 4 && y === 4){
-        //     jeu.plop(x,y-1);
-        //     jeu.plop(x,y);
-        //     jeu.plop(x-1,y);
-        //     jeu.plop(x-1,y-1);
-        // }
-
     }
 
-    plop(x,y){
-        if (grid[y][x].valeur === 0){
-            grid[y][x].isRevealed = true;
+    start() { // Menu et lancement du jeu
+        console.clear();
+        console.log(colors.rainbow(" __    __     _                          \n" +
+                    "/ / /\\ \\ \\___| | ___ ___  _ __ ___   ___ \n" +
+                    "\\ \\/  \\/ / _ \\ |/ __/ _ \\| '_ ` _ \\ / _ \\\n" +
+                    " \\  /\\  /  __/ | (_| (_) | | | | | |  __/\n" +
+                    "  \\/  \\/ \\___|_|\\___\\___/|_| |_| |_|\\___|\n"));
+        jeu.display();
+        while(!jeu.win && !jeu.loose){
+            console.log(colors.blue('C -> Click \n'));
+            console.log(colors.red('F -> Flag\n'));
+            console.log(colors.green('D -> Display'));
+            var valueNext = scanf('%s');
+            if (valueNext === "C") {
+                console.log('Entrer x');
+                var xValue = scanf('%d');
+                console.log('Entrer y');
+                var yValue = scanf('%d');
+                jeu.click(xValue, yValue);
+                jeu.display();
+                jeu.testWin();
+            }
+            if (valueNext === "F") {
+                console.log('Entrer x');
+                const xValueFlag = scanf('%d');
+                console.log('Entrer y');
+                const yValueFlag = scanf('%d');
+                jeu.flag(xValueFlag, yValueFlag);
+            }
+            if (valueNext === "D") {
+                console.clear();
+                jeu.display();
+            }
         }
-        else {
-            console.log("pas egal a 0")
+    }
+
+    testWin(){ // Test si  vous avez gagner ou non
+        var thisCellVal = true;
+        var mineIsRevealed = false;
+        for (var i = 0; i < grid.length; i++) { // décomposition grid en row
+            var row = grid[i];
+            for (var j = 0; j < row.length; j++) { //décomposition row en case
+                var thisCase = row[j];
+                if (!thisCase.isRevealed && thisCase.valeur !== "M"){
+                    thisCellVal=false;
+                }
+                else if (thisCase.isRevealed && thisCase.valeur === "M"){
+                    mineIsRevealed = true;
+                }
+            }
+        }
+
+        if(thisCellVal){
+            this.win = true;
+            console.clear();
+            console.log(colors.rainbow("   ____                     __ \n" +
+                "  / ___| __ _  __ _ _ __   /_/ \n" +
+                " | |  _ / _` |/ _` | '_ \\ / _ \\\n" +
+                " | |_| | (_| | (_| | | | |  __/\n" +
+                "  \\____|\\__,_|\\__, |_| |_|\\___|\n" +
+                "              |___/            "));
+        }
+        else if(mineIsRevealed){
+            this.loose = true;
+            console.clear();
+            console.log(colors.red("  ____              _       \n" +
+                " |  _ \\ ___ _ __ __| |_   _ \n" +
+                " | |_) / _ \\ '__/ _` | | | |\n" +
+                " |  __/  __/ | | (_| | |_| |\n" +
+                " |_|   \\___|_|  \\__,_|\\__,_|\n" +
+                "                            "));
         }
     }
 }
 
 
 var jeu = new Demineur();
-// jeu.display();
-// jeu.flag(1,1);
-jeu.click(0,0);
+jeu.start();
 jeu.display();
 
-
-//     [0, 1, 1, 1, 0]
-//     [0, 2, 'M', 2, 0]
-//     [0, 2, 'M', 2, 0]
-//     [0, 1, 1, 1, 0]
-//     [0, 0, 0, 0, 0]
