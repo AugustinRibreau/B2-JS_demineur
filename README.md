@@ -3,12 +3,18 @@
 This repository contains the code of a second year of higher education exercise. He is a deminer.
 
 ## How to Start
+```
+Clone this repository
+npm install
+Opens your favorite terminal
+Go to the location of the file
+```
 
-- Clone this repository
-- `npm install`
-- Opens your favorite terminal
-- Go to the location of the file
-- `node index.js`
+# For backend
+`node index.js`
+
+# For frontend
+`npm start`
 
 ## How to contribute
 
