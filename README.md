@@ -10,10 +10,10 @@ Opens your favorite terminal
 Go to the location of the file
 ```
 
-# For backend
+### ➥ For backend
 `node index.js`
 
-# For frontend
+### ➥ For frontend
 `npm start`
 
 ## How to contribute
