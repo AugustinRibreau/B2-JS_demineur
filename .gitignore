@@ -5,3 +5,8 @@ backend/.cache
 
 frontend/.idea
 frontend/node_modules
+
+/node_modules
+/.idea
+/dist
+/.cache
